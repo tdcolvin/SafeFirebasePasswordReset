@@ -11,7 +11,7 @@ function App() {
   const [newPassword2, setNewPassword2] = useState("");
 
   //Result of security check on newPassword1
-  const [zxcvbnResult, setZxcbnResult] = useState<zxcvbn.ZXCVBNResult | null>(null);
+  const [zxcvbnResult, setZxcvbnResult] = useState<zxcvbn.ZXCVBNResult | null>(null);
 
   //The headline error - eg password too short or not secure enough
   const [passwordHeadlineError, setPasswordHeadlineError] = useState<string | null>(null);
@@ -28,7 +28,7 @@ function App() {
     setNewPassword1(password);
     
     const zr = zxcvbn(password);
-    setZxcbnResult(zr);
+    setZxcvbnResult(zr);
     
     if (password.length < MIN_CHARS) {
       setPasswordHeadlineError(`Please enter at least ${MIN_CHARS} characters`);
