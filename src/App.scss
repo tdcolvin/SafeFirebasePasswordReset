@@ -1,0 +1,45 @@
+.App {
+    width: 100%;
+    max-width: 800px;
+    margin: 0px auto;
+    text-align: center;
+
+    label {
+        margin-top: 20px;
+        display: block;
+    }
+    button, input[type="password"] {
+        width: 100%;
+        max-width: 400px;
+        margin-top: 20px;
+        display: block;
+        margin: 0px auto;
+    }
+    button {
+        margin-top: 20px;
+    }
+    ul {
+        list-style-position: inside;
+        padding-left: 0px;
+    }
+
+    p.error, p.warn, p.ok {
+        &::before {
+            vertical-align: middle;
+            height: 1em;
+            width: auto;
+            margin-right: 0.5em;
+
+
+        }
+    }
+    p.error::before {
+        content: url("../public/img/error.svg");
+    }
+    p.warn::before {
+        content: url("../public/img/warn.svg");
+    }
+    p.ok::before {
+        content: url("../public/img/ok.svg");
+    }
+}
