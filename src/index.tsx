@@ -4,16 +4,25 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { FirebaseAppProvider } from 'reactfire';
-import { firebaseConfig } from './config/firebase';
+import useLocationHash from './hooks/useLocationHash';
+
+const FirebaseAppFromApiKey = function() {
+  const hashParams = useLocationHash().split(/&|\?/);
+  const apiKey = hashParams.find((param) => param.startsWith("apiKey="))?.substring(7) ?? "";
+
+  return (
+    <FirebaseAppProvider firebaseConfig={ {apiKey} }>
+      <App />
+    </FirebaseAppProvider>
+  );
+}
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <FirebaseAppProvider firebaseConfig={firebaseConfig}>
-      <App />
-    </FirebaseAppProvider>
+    <FirebaseAppFromApiKey />
   </React.StrictMode>
 );
 
