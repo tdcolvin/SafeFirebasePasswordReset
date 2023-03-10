@@ -1,10 +1,17 @@
+import { FirebaseError } from "firebase/app";
+import { confirmPasswordReset } from "firebase/auth";
 import { useEffect, useState } from "react";
+import { useAuth } from "reactfire";
 import zxcvbn from "zxcvbn";
 
 const MIN_SCORE = 3;
 const MIN_CHARS = 8;
 
-function PasswordChange() {
+export interface PasswordChangeParams {
+  actionCode: string;
+}
+
+function PasswordChange(params: PasswordChangeParams) {
   //Password and password confirmation
   const [newPassword1, setNewPassword1] = useState("");
   const [newPassword2, setNewPassword2] = useState("");
@@ -22,6 +29,8 @@ function PasswordChange() {
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => setNewPassword(""), []);
+
+  const auth = useAuth();
 
   function setNewPassword(password: string) {
     setNewPassword1(password);
@@ -45,7 +54,7 @@ function PasswordChange() {
     setError(null);
 
     try {
-      if (newPassword1 != newPassword2) {
+      if (newPassword1 !== newPassword2) {
         //Don't display anything else, the UI will already be showing the error
         return;
       }
@@ -58,9 +67,34 @@ function PasswordChange() {
         setError("Password is not secure enough");
         return;
       }
+
+      await confirmPasswordReset(auth, params.actionCode, newPassword1);
+    }
+    catch (e) {
+      const errorCode = (e as FirebaseError).code;
+      switch (errorCode) {
+        case "auth/expired-action-code":
+          setError("Your email link has expired. Please try resetting your password again.");
+          break;
+        case "auth/invalid-action-code":
+          setError("Your email link was invalid. Please try resetting your password again.");
+          break;
+        case "auth/user-disabled":
+          setError("Your account has been disabled.");
+          break;
+        case "auth/user-not-found":
+          setError("Your account could not be found.");
+          break;
+        case "auth/weak-password":
+          setError("Password is not secure enough");
+          break;
+        default:
+          setError("Unable to verify your email link. Please confirm you are connected to the internet and try again.");
+          break;
+      }
     }
     finally {
-      //setSubmitting(false);
+      setSubmitting(false);
     }
   }
 
@@ -100,7 +134,7 @@ function PasswordChange() {
 
       <label htmlFor="newPassword2">Confirm password</label>
       <input type="password" id="newPassword2" value={newPassword2} onChange={ event => setNewPassword2(event.target.value) } />
-      { newPassword2.length > 0 && newPassword1 != newPassword2 &&
+      { newPassword2.length > 0 && newPassword1 !== newPassword2 &&
         <p className="error">Passwords do not match</p>
       }
 

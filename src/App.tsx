@@ -68,7 +68,7 @@ function App() {
           <ActionCodeVerificationInfo errorText={ actionCodeVerificationError }/>
         }
         { !actionCodeVerificationInProgress && !actionCodeVerificationError && 
-          <PasswordChange />
+          <PasswordChange actionCode={ actionCode }/>
         }
       </div>
     </AuthProvider>
