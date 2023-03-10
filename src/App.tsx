@@ -113,11 +113,14 @@ function App() {
         { fatalError &&
           <FatalError errorText={ fatalError } />
         }
-        { actionCodeVerificationInProgress && !fatalError &&
+        { !fatalError && actionCodeVerificationInProgress && 
           <VerifyingActionCode />
         }
-        { !actionCodeVerificationInProgress && !fatalError && 
+        { !fatalError && !actionCodeVerificationInProgress && submissionState !== SubmissionState.SUCCESSFULLY_SUBMITTED &&
           <PasswordChange submissionState={ submissionState } submitError={ submitError } submitNewPassword={ (password) => submitNewPassword(password) } />
+        }
+        { !fatalError && !actionCodeVerificationInProgress && submissionState === SubmissionState.SUCCESSFULLY_SUBMITTED &&
+          <h1>Submission Success</h1>
         }
       </div>
     </AuthProvider>
