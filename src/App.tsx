@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { AuthProvider, useFirebaseApp } from 'reactfire';
 import './App.scss';
 import useLocationHash from './hooks/useLocationHash';
-import ActionCodeVerificationInfo from './modules/actionCodeVerificationInfo/ActionCodeVerificationInfo';
+import VerifyingActionCode from './modules/verifyingActionCode/VerifyingActionCode';
 import FatalError from './modules/fatalError/FatalError';
 import PasswordChange from './modules/passwordChange/PasswordChange';
 import { SubmissionState } from './types';
@@ -115,7 +115,7 @@ function App() {
           <FatalError errorText={ fatalError } />
         }
         { actionCodeVerificationInProgress && !fatalError &&
-          <ActionCodeVerificationInfo />
+          <VerifyingActionCode />
         }
         { !actionCodeVerificationInProgress && !fatalError && 
           <PasswordChange submissionState={ submissionState } submitError={ submitError } submitNewPassword={ (password) => submitNewPassword(password) } />

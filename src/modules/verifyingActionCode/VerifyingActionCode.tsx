@@ -1,9 +1,9 @@
 import ProgressSpinner from "../../components/progressSpinner/ProgressSpinner";
 
-function ActionCodeVerificationInfo() {
+function VerifyingActionCode() {
     return (<>
         <ProgressSpinner />
     </>);
 }
 
-export default ActionCodeVerificationInfo;
+export default VerifyingActionCode;
