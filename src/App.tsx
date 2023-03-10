@@ -37,6 +37,8 @@ function App() {
       setSubmissionState(SubmissionState.SUCCESSFULLY_SUBMITTED)
     }
     catch (e) {
+      setSubmissionState(SubmissionState.NOT_SUBMITTING);
+
       const errorCode = (e as FirebaseError).code;
       switch (errorCode) {
         case "auth/expired-action-code":
@@ -58,9 +60,6 @@ function App() {
           setSubmitError("Unable to verify your email link. Please confirm you are connected to the internet and try again.");
           break;
       }
-    }
-    finally {
-      setSubmissionState(SubmissionState.NOT_SUBMITTING);
     }
   }
 
