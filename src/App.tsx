@@ -5,6 +5,7 @@ import { AuthProvider, useFirebaseApp } from 'reactfire';
 import './App.scss';
 import useLocationHash from './hooks/useLocationHash';
 import ActionCodeVerificationInfo from './modules/actionCodeVerificationInfo/ActionCodeVerificationInfo';
+import FatalError from './modules/fatalError/FatalError';
 import PasswordChange from './modules/passwordChange/PasswordChange';
 import { SubmissionState } from './types';
 
@@ -110,8 +111,11 @@ function App() {
   return (
     <AuthProvider sdk={auth}>
       <div className="App">
-        { (actionCodeVerificationInProgress || fatalError) &&
-          <ActionCodeVerificationInfo errorText={ fatalError }/>
+        { fatalError &&
+          <FatalError errorText={ fatalError } />
+        }
+        { actionCodeVerificationInProgress && !fatalError &&
+          <ActionCodeVerificationInfo />
         }
         { !actionCodeVerificationInProgress && !fatalError && 
           <PasswordChange submissionState={ submissionState } submitError={ submitError } submitNewPassword={ (password) => submitNewPassword(password) } />
