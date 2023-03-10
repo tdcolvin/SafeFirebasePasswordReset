@@ -1,13 +1,13 @@
 import ProgressSpinner from "../../components/progressSpinner/ProgressSpinner";
 
-export interface OOBVerificationInfoParams {
+export interface ActionCodeVerificationInfoParams {
     errorText?: string;
 }
-function OOBVerificationInfo(params: OOBVerificationInfoParams) {
+function ActionCodeVerificationInfo(params: ActionCodeVerificationInfoParams) {
     return (<>
         { params.errorText && <h1>{ params.errorText }</h1> }
         { !params.errorText && <ProgressSpinner /> }
     </>);
 }
 
-export default OOBVerificationInfo;
+export default ActionCodeVerificationInfo;

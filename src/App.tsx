@@ -1,37 +1,37 @@
 import { useEffect, useState } from 'react';
 import './App.scss';
-import OOBVerificationInfo from './modules/oobVerificationInfo/OOBVerificationInfo';
+import ActionCodeVerificationInfo from './modules/actionCodeVerificationInfo/ActionCodeVerificationInfo';
 import PasswordChange from './modules/passwordChange/PasswordChange';
 
 function App() {
-  //Are we currently verifying the OOB?
-  const [oobVerificationInProgress, setOobVerificationInProgress] = useState(true);
-  const [oobVerificationError, setOobVerificationError] = useState<string | undefined>(undefined);
+  //Are we currently verifying the action code?
+  const [actionCodeVerificationInProgress, setActionCodeVerificationInProgress] = useState(true);
+  const [actionCodeVerificationError, setActionCodeVerificationError] = useState<string | undefined>(undefined);
 
   useEffect(() => {
-    setOobVerificationInProgress(true);
+    setActionCodeVerificationInProgress(true);
 
-    async function verifyOob() {
-      setOobVerificationInProgress(true);
-      setOobVerificationError(undefined);
+    async function verifyActionCode() {
+      setActionCodeVerificationInProgress(true);
+      setActionCodeVerificationError(undefined);
 
       await new Promise((resolve) => setTimeout(() => resolve(null), 5000));
     };
 
-    verifyOob()
+    verifyActionCode()
       .catch(e => {
-        setOobVerificationError("Unable to verify your email link. Please confirm you are connected to the internet and try again.");
-        console.log("Error verifying OOB", e);
+        setActionCodeVerificationError("Unable to verify your email link. Please confirm you are connected to the internet and try again.");
+        console.log("Error verifying action code", e);
       })
-      .finally(() => setOobVerificationInProgress(false));
+      .finally(() => setActionCodeVerificationInProgress(false));
   }, []);
 
   return (
     <div className="App">
-      { (oobVerificationInProgress || oobVerificationError) &&
-        <OOBVerificationInfo errorText={ oobVerificationError }/>
+      { (actionCodeVerificationInProgress || actionCodeVerificationError) &&
+        <ActionCodeVerificationInfo errorText={ actionCodeVerificationError }/>
       }
-      { !oobVerificationInProgress && !oobVerificationError && 
+      { !actionCodeVerificationInProgress && !actionCodeVerificationError && 
         <PasswordChange />
       }
     </div>
