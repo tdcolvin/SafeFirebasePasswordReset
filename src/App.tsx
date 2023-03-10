@@ -12,7 +12,9 @@ function App() {
   const [actionCodeVerificationInProgress, setActionCodeVerificationInProgress] = useState(true);
   const [actionCodeVerificationError, setActionCodeVerificationError] = useState<string | undefined>(undefined);
 
-  const actionCode = useLocationHash();
+  const hash = useLocationHash();
+  const hashParams = hash.split(/&|\?/);
+  const actionCode = hashParams.find((param) => param.startsWith("oobCode="))?.substring(8) ?? "";
 
   const auth = getAuth(useFirebaseApp());
 
