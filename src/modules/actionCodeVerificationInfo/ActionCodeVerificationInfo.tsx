@@ -1,7 +1,7 @@
 import ProgressSpinner from "../../components/progressSpinner/ProgressSpinner";
 
 export interface ActionCodeVerificationInfoParams {
-    errorText?: string;
+    errorText: string | null;
 }
 function ActionCodeVerificationInfo(params: ActionCodeVerificationInfoParams) {
     return (<>

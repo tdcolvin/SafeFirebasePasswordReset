@@ -1,14 +1,14 @@
-import { FirebaseError } from "firebase/app";
-import { confirmPasswordReset } from "firebase/auth";
 import { useEffect, useState } from "react";
-import { useAuth } from "reactfire";
 import zxcvbn from "zxcvbn";
+import { SubmissionState } from "../../types";
 
 const MIN_SCORE = 3;
 const MIN_CHARS = 8;
 
 export interface PasswordChangeParams {
-  actionCode: string;
+  submissionState: SubmissionState,
+  submitNewPassword: (password: string) => {},
+  submitError: string | null
 }
 
 function PasswordChange(params: PasswordChangeParams) {
@@ -21,17 +21,6 @@ function PasswordChange(params: PasswordChangeParams) {
 
   //The headline error - eg password too short or not secure enough
   const [passwordHeadlineError, setPasswordHeadlineError] = useState<string | null>(null);
-
-  //Any error which turned up whilst trying to submit the new password
-  const [error, setError] = useState<string | null>(null);
-
-  //Are we currently submitting the new password?
-  const [submitting, setSubmitting] = useState(false);
-
-  useEffect(() => setNewPassword(""), []);
-
-  const auth = useAuth();
-
   function setNewPassword(password: string) {
     setNewPassword1(password);
     
@@ -48,55 +37,8 @@ function PasswordChange(params: PasswordChangeParams) {
       setPasswordHeadlineError(null);
     }
   }
-  
-  async function doSubmit() {
-    setSubmitting(true);
-    setError(null);
 
-    try {
-      if (newPassword1 !== newPassword2) {
-        //Don't display anything else, the UI will already be showing the error
-        return;
-      }
-
-      //Test the password security
-      const securityResult = zxcvbn(newPassword1);
-
-      //Cancel if security is not sufficient
-      if (securityResult.score < MIN_SCORE) {
-        setError("Password is not secure enough");
-        return;
-      }
-
-      await confirmPasswordReset(auth, params.actionCode, newPassword1);
-    }
-    catch (e) {
-      const errorCode = (e as FirebaseError).code;
-      switch (errorCode) {
-        case "auth/expired-action-code":
-          setError("Your email link has expired. Please try resetting your password again.");
-          break;
-        case "auth/invalid-action-code":
-          setError("Your email link was invalid. Please try resetting your password again.");
-          break;
-        case "auth/user-disabled":
-          setError("Your account has been disabled.");
-          break;
-        case "auth/user-not-found":
-          setError("Your account could not be found.");
-          break;
-        case "auth/weak-password":
-          setError("Password is not secure enough");
-          break;
-        default:
-          setError("Unable to verify your email link. Please confirm you are connected to the internet and try again.");
-          break;
-      }
-    }
-    finally {
-      setSubmitting(false);
-    }
-  }
+  useEffect(() => setNewPassword(""), []);
 
   return (
     <div className="App">
@@ -138,9 +80,9 @@ function PasswordChange(params: PasswordChangeParams) {
         <p className="error">Passwords do not match</p>
       }
 
-      <button disabled={ submitting || !!passwordHeadlineError || newPassword1 !== newPassword2 } onClick={() => doSubmit()}>{ submitting ? "Submitting..." : "Submit" }</button>
-      { error &&
-        <p className="error">{error}</p>
+      <button disabled={ params.submissionState !== SubmissionState.NOT_SUBMITTING || !!passwordHeadlineError || newPassword1 !== newPassword2 } onClick={() => params.submitNewPassword(newPassword1)}>{ params.submissionState === SubmissionState.SUBMITTING ? "Submitting..." : "Submit" }</button>
+      { params.submitError &&
+        <p className="error">{params.submitError}</p>
       }
     </div>
   );
