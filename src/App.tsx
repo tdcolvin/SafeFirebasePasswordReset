@@ -101,10 +101,6 @@ function App() {
     };
 
     verifyActionCode()
-      .catch(e => {
-        console.log("Error verifying action code", e);
-      })
-      .finally(() => setActionCodeVerificationInProgress(false));
   }, [auth, actionCode]);
 
   return (
