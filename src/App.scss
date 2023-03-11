@@ -34,12 +34,12 @@
         }
     }
     p.error::before {
-        content: url("../public/img/error.svg");
+        content: url("./res/error.svg");
     }
     p.warn::before {
-        content: url("../public/img/warn.svg");
+        content: url("./res/warn.svg");
     }
     p.ok::before {
-        content: url("../public/img/ok.svg");
+        content: url("./res/ok.svg");
     }
 }
