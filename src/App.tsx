@@ -8,6 +8,7 @@ import VerifyingActionCode from './modules/verifyingActionCode/VerifyingActionCo
 import FatalError from './modules/fatalError/FatalError';
 import PasswordChange from './modules/passwordChange/PasswordChange';
 import { SubmissionState } from './types';
+import PasswordChangeSuccess from './modules/passwordChangeSuccess/PasswordChangeSuccess';
 
 function App() {
   //Are we currently verifying the action code?
@@ -116,7 +117,7 @@ function App() {
           <PasswordChange submissionState={ submissionState } submitError={ submitError } submitNewPassword={ (password) => submitNewPassword(password) } />
         }
         { !fatalError && !actionCodeVerificationInProgress && submissionState === SubmissionState.SUCCESSFULLY_SUBMITTED &&
-          <h1>Submission Success</h1>
+          <PasswordChangeSuccess />
         }
       </div>
     </AuthProvider>
