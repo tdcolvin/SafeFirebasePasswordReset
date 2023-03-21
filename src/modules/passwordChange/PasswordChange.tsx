@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import zxcvbn from "zxcvbn";
 import { SubmissionState } from "../../types";
+import "./PasswordChange.scss";
 
 const MIN_SCORE = 3;
 const MIN_CHARS = 8;
@@ -41,7 +42,7 @@ function PasswordChange(params: PasswordChangeParams) {
   useEffect(() => setNewPassword(""), []);
 
   return (
-    <div className="App">
+    <div className="PasswordChange">
       <h1>Reset your password</h1>
       <p>Thanks for confirming your email address. You can now reset your password below.</p>
 
