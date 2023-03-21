@@ -7,8 +7,9 @@ import { FirebaseAppProvider } from 'reactfire';
 import useLocationHash from './hooks/useLocationHash';
 
 const FirebaseAppFromApiKey = function() {
-  const hashParams = useLocationHash().split(/&|\?/);
-  const apiKey = hashParams.find((param) => param.startsWith("apiKey="))?.substring(7) ?? "";
+  const hash = useLocationHash();
+  const apiKey = hash["apiKey"] ?? "";
+  const mode = hash["mode"] ?? "";
 
   return (
     <FirebaseAppProvider firebaseConfig={ {apiKey} }>

@@ -14,9 +14,7 @@ function App() {
   //Are we currently verifying the action code?
   const [actionCodeVerificationInProgress, setActionCodeVerificationInProgress] = useState(true);
 
-  const hash = useLocationHash();
-  const hashParams = hash.split(/&|\?/);
-  const actionCode = hashParams.find((param) => param.startsWith("oobCode="))?.substring(8) ?? "";
+  const actionCode = useLocationHash()["oobCode"];
 
   const auth = getAuth(useFirebaseApp());
 
@@ -108,7 +106,9 @@ function App() {
     <AuthProvider sdk={auth}>
       <div className="App">
         { fatalError &&
-          <FatalError errorText={ fatalError } />
+          //<FatalError errorText={ fatalError } />
+                    <PasswordChange submissionState={ submissionState } submitError={ submitError } submitNewPassword={ (password) => submitNewPassword(password) } />
+
         }
         { !fatalError && actionCodeVerificationInProgress && 
           <VerifyingActionCode />
