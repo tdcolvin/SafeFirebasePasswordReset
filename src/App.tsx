@@ -62,7 +62,7 @@ function App() {
     }
   }
 
-
+  //As soon as we have our action code (OOB), we check it to ensure it's valid
   useEffect(() => {
     setActionCodeVerificationInProgress(true);
 

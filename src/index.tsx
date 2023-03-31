@@ -31,7 +31,7 @@ const FirebaseAppFromApiKey = function() {
     }
     if (!firebaseConfig.apiKey) {
       console.log("********** WARNING **********");
-      console.log("You have not set up an project ID. Without this we won't reliably be able to redirect to the default");
+      console.log("You have not set up a project ID. Without this we won't reliably be able to redirect to the default");
       console.log("/auth/action app in case this app is required to perform something other than password reset.");
       console.log("Please update the firebaseConfig.ts file.");
       console.log("******************************");
