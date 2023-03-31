@@ -1,46 +1,50 @@
-# Getting Started with Create React App
+# SafeFirebasePasswordReset
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Firebase Auth's default password reset app is insecure, as it allows users to enter insecure passwords. This project provides a drop-in replacement.
 
-## Available Scripts
+SafeFirebasePasswordReset ensures that users enter a secure password:
 
-In the project directory, you can run:
+![Demo of SafeFirebasePasswordReset](https://user-images.githubusercontent.com/6803964/229194277-eccade28-9aee-4a94-b6db-84e24a4fc61b.gif)
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+...Whereas Firebase's default mechanism will accept any 6-character combination:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+![Demo of insecure mechanism allowing password 'aaaaaa'](https://user-images.githubusercontent.com/6803964/229190502-10cc58cb-e42a-4d65-b153-b86b473462e2.gif)
 
-### `npm test`
+Further information on this insecurity is in [this blog](https://medium.com/@tdcolvin/why-firebase-email-password-login-isnt-great-for-security-8835c9adf96e).
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Development prerequisites
 
-### `npm run build`
+* NodeJS >= 16
+* Firebase CLI
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Adding into to your Firebase project
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. Find your Firebase project config by going to **Settings** (cog icon) --> **Project settings** in your Firebase console, then click **Add App**. Follow the steps to see a screen like this:  
+![Firebase project config](https://user-images.githubusercontent.com/6803964/229196168-258f4108-0a9a-4697-8b9e-4fe9a1f20755.png).  
+Your project config is in the red box. Paste this into `src/firebaseConfig.ts` where indicated by comments.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2. Build the project:  
+`npm run build`  
+The build files will be created in the `build` directory.
 
-### `npm run eject`
+3. Upload the `build` directory to any hosting service. If you want to use Firebase Hosting, just run `firebase init`, select Hosting, and answer the questions as follows:  
+![Firebase Hosting questions](https://user-images.githubusercontent.com/6803964/229199678-bf04aaab-bdc4-4703-a25b-2a8bc5b95cae.png)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+4. In your Firebase console, select **Authentication**, then **Templates** (tab), then press the pencil edit icon, then click **Customise action URL**. Paste in the URL from your hosting service ***plus #***. So if your hosting URL is *https://my-app.com/resetpassword/*, enter `https://my-app.com/resetpassword/#`. This directs password reset emails to your newly uploaded app.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+The app is written using React and can be easily branded or customised.
 
-## Learn More
+## Comments, questions, etc
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Please open an issue, I will try to respond quickly.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Contributions
+
+Any and all contributions very welcome but I recommend opening an issue before submitting a pull request.
+
+## License
+
+MIT
