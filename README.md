@@ -32,7 +32,7 @@ The build files will be created in the `build` directory.
 ![Firebase Hosting questions](https://user-images.githubusercontent.com/6803964/229199678-bf04aaab-bdc4-4703-a25b-2a8bc5b95cae.png)
 
 
-4. In your Firebase console, select **Authentication**, then **Templates** (tab), then press the pencil edit icon, then click **Customise action URL**. Paste in the URL from your hosting service ***plus #***. So if your hosting URL is *https://my-app.com/resetpassword/*, enter `https://my-app.com/resetpassword/#`. This directs password reset emails to your newly uploaded app.
+4. In your Firebase console, select **Authentication**, then **Templates** (tab), then press the pencil edit icon, then click **Customise action URL**. Paste in the URL from your hosting service ***plus #***. So if your hosting URL is *https​://my-app.com/resetpassword/*, enter `https://my-app.com/resetpassword/#`. This directs password reset emails to your newly uploaded app.
 
 
 The app is written using React and can be easily branded or customised.
