@@ -106,8 +106,7 @@ function App() {
     <AuthProvider sdk={auth}>
       <div className="App">
         { fatalError &&
-          //<FatalError errorText={ fatalError } />
-                    <PasswordChange submissionState={ submissionState } submitError={ submitError } submitNewPassword={ (password) => submitNewPassword(password) } />
+          <FatalError errorText={ fatalError } />
 
         }
         { !fatalError && actionCodeVerificationInProgress && 
